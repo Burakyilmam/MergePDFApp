@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace MergePDFApp
 {
-    public partial class frmPDFBirlestir : Form
+    public partial class frmMerge : Form
     {
         public class PDFItem
         {
@@ -23,12 +23,13 @@ namespace MergePDFApp
             public List<string> MergedFiles { get; set; } = new List<string>();
             public string MergedFromDisplay => IsMerged && MergedFiles.Any() ? string.Join(", ", MergedFiles.Select(x => Path.GetFileName(x))) : "";
         }
+
         public string outputPath;
-        public BindingList<PDFItem> pdfList;
+        public static BindingList<PDFItem> pdfList;
         public PDFItem selectedPDF;
         public int[] selectedPDFs;
 
-        public frmPDFBirlestir()
+        public frmMerge()
         {
             InitializeComponent();
             this.SizeChanged += Form1_SizeChanged;
@@ -45,6 +46,7 @@ namespace MergePDFApp
             btnDownloadPDF.Click += btnDownloadMergedPDF_Click;
             btnMergePDF.Click += btnMergePDF_Click;
             btnUploadPDF.Click += btnUploadPDF_Click;
+            btnPartialPDF.Click += BtnPartialPDF_Click;
 
             GridControlDataSource();
         }
@@ -358,7 +360,7 @@ namespace MergePDFApp
             MergeSelectedPDF();
         }
 
-        private string GetUniqueFileName(string filePath)
+        private static string GetUniqueFileName(string filePath)
         {
             string directory = Path.GetDirectoryName(filePath);
             string filenameWithoutExt = Path.GetFileNameWithoutExtension(filePath);
@@ -442,6 +444,61 @@ namespace MergePDFApp
         private void btnDownloadMergedPDF_Click(object sender, EventArgs e)
         {
             DownloadPDF();
+        }
+
+        public static void CreatePartialPDF(PDFItem sourceItem, int startPage, int endPage)
+        {
+            if (sourceItem == null || !File.Exists(sourceItem.FilePath))
+            {
+                MessageBox.Show("Kaynak PDF bulunamadı.");
+                return;
+            }
+
+            if (startPage < 1 || endPage > sourceItem.PageSize || startPage > endPage)
+            {
+                MessageBox.Show("Geçersiz sayfa aralığı.");
+                return;
+            }
+
+            string newPath = Path.Combine(Path.GetTempPath(),
+                             $"{Path.GetFileNameWithoutExtension(sourceItem.FileName)}_Part_{startPage}-{endPage}.pdf");
+
+            newPath = GetUniqueFileName(newPath);
+
+            int newDocPageCount = 0;
+
+            using (var outputDoc = new PdfDocument())
+            {
+                using (var inputDoc = PdfReader.Open(sourceItem.FilePath, PdfDocumentOpenMode.Import))
+                {
+                    for (int i = startPage - 1; i < endPage; i++)
+                    {
+                        outputDoc.AddPage(inputDoc.Pages[i]);
+                    }
+                }
+
+                newDocPageCount = outputDoc.PageCount;
+
+                outputDoc.Save(newPath);
+            }
+
+            pdfList.Add(new PDFItem
+            {
+                FileName = Path.GetFileName(newPath),
+                FilePath = newPath,
+                PageSize = newDocPageCount,
+                IsMerged = false
+            });
+        }
+
+
+        private void BtnPartialPDF_Click(object sender, EventArgs e)
+        {
+            if(selectedPDF != null)
+            {
+                frmPartial frmPartial = new frmPartial(this);
+                frmPartial.Show();
+            }
         }
 
         private void GrdvPDF_PopupMenuShowing(object sender, DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventArgs e)

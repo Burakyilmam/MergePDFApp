@@ -135,16 +135,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="frmPDFBirlestir.cs">
+    <Compile Include="frmPartial.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="frmPDFBirlestir.Designer.cs">
-      <DependentUpon>frmPDFBirlestir.cs</DependentUpon>
+    <Compile Include="frmPartial.Designer.cs">
+      <DependentUpon>frmPartial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmMerge.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmMerge.Designer.cs">
+      <DependentUpon>frmMerge.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="frmPDFBirlestir.resx">
-      <DependentUpon>frmPDFBirlestir.cs</DependentUpon>
+    <EmbeddedResource Include="frmPartial.resx">
+      <DependentUpon>frmPartial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmMerge.resx">
+      <DependentUpon>frmMerge.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\licenses.licx" />
     <EmbeddedResource Include="Properties\Resources.resx">

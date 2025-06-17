@@ -1,7 +1,7 @@
 ﻿
 namespace MergePDFApp
 {
-    partial class frmPDFBirlestir
+    partial class frmMerge
     {
         /// <summary>
         /// Required designer variable.
@@ -30,10 +30,11 @@ namespace MergePDFApp
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPDFBirlestir));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMerge));
             this.grdPDF = new DevExpress.XtraGrid.GridControl();
             this.grdvPDF = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.pnlButon = new DevExpress.XtraEditors.PanelControl();
+            this.btnPartialPDF = new DevExpress.XtraEditors.SimpleButton();
             this.btnUploadPDF = new DevExpress.XtraEditors.SimpleButton();
             this.btnMergePDF = new DevExpress.XtraEditors.SimpleButton();
             this.btnDownloadPDF = new DevExpress.XtraEditors.SimpleButton();
@@ -68,6 +69,7 @@ namespace MergePDFApp
             // 
             // pnlButon
             // 
+            this.pnlButon.Controls.Add(this.btnPartialPDF);
             this.pnlButon.Controls.Add(this.btnUploadPDF);
             this.pnlButon.Controls.Add(this.btnMergePDF);
             this.pnlButon.Controls.Add(this.btnDownloadPDF);
@@ -76,6 +78,16 @@ namespace MergePDFApp
             this.pnlButon.Name = "pnlButon";
             this.pnlButon.Size = new System.Drawing.Size(1277, 35);
             this.pnlButon.TabIndex = 8;
+            // 
+            // btnPartialPDF
+            // 
+            this.btnPartialPDF.ImageOptions.SvgImage = ((DevExpress.Utils.Svg.SvgImage)(resources.GetObject("btnPartialPDF.ImageOptions.SvgImage")));
+            this.btnPartialPDF.ImageOptions.SvgImageSize = new System.Drawing.Size(24, 24);
+            this.btnPartialPDF.Location = new System.Drawing.Point(861, 6);
+            this.btnPartialPDF.Name = "btnPartialPDF";
+            this.btnPartialPDF.Size = new System.Drawing.Size(114, 23);
+            this.btnPartialPDF.TabIndex = 3;
+            this.btnPartialPDF.Text = "Partial PDF";
             // 
             // btnUploadPDF
             // 
@@ -103,7 +115,7 @@ namespace MergePDFApp
             this.btnDownloadPDF.ImageOptions.SvgImageSize = new System.Drawing.Size(24, 24);
             this.btnDownloadPDF.Location = new System.Drawing.Point(731, 6);
             this.btnDownloadPDF.Name = "btnDownloadPDF";
-            this.btnDownloadPDF.Size = new System.Drawing.Size(159, 23);
+            this.btnDownloadPDF.Size = new System.Drawing.Size(124, 23);
             this.btnDownloadPDF.TabIndex = 0;
             this.btnDownloadPDF.Text = "Download PDF";
             // 
@@ -141,6 +153,7 @@ namespace MergePDFApp
         private DevExpress.XtraEditors.SimpleButton btnMergePDF;
         private DevExpress.XtraEditors.SimpleButton btnDownloadPDF;
         private DevExpress.XtraPdfViewer.PdfViewer pdfViewer;
+        private DevExpress.XtraEditors.SimpleButton btnPartialPDF;
     }
 }
 
