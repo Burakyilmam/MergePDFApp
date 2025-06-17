@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.34931.43
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MergePDFApp", "MergePDFApp\MergePDFApp.csproj", "{CE378F26-CB5D-4B91-9454-EB9EB1E9D126}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{CE378F26-CB5D-4B91-9454-EB9EB1E9D126}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CE378F26-CB5D-4B91-9454-EB9EB1E9D126}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CE378F26-CB5D-4B91-9454-EB9EB1E9D126}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CE378F26-CB5D-4B91-9454-EB9EB1E9D126}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {53E1F5BA-99B4-41F7-B38C-3B62A84585B4}
+	EndGlobalSection
+EndGlobal
