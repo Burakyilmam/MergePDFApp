@@ -1,7 +1,7 @@
 ﻿
 namespace MergePDFApp
 {
-    partial class Form1
+    partial class frmPDFBirlestir
     {
         /// <summary>
         /// Required designer variable.
@@ -30,7 +30,7 @@ namespace MergePDFApp
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmPDFBirlestir));
             this.grdPDF = new DevExpress.XtraGrid.GridControl();
             this.grdvPDF = new DevExpress.XtraGrid.Views.Grid.GridView();
             this.pnlButon = new DevExpress.XtraEditors.PanelControl();
@@ -46,6 +46,7 @@ namespace MergePDFApp
             // 
             // grdPDF
             // 
+            this.grdPDF.AllowDrop = true;
             this.grdPDF.Dock = System.Windows.Forms.DockStyle.Left;
             this.grdPDF.Location = new System.Drawing.Point(0, 0);
             this.grdPDF.MainView = this.grdvPDF;
@@ -114,7 +115,7 @@ namespace MergePDFApp
             this.pdfViewer.Size = new System.Drawing.Size(620, 391);
             this.pdfViewer.TabIndex = 10;
             // 
-            // Form1
+            // frmPDFBirlestir
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -122,8 +123,8 @@ namespace MergePDFApp
             this.Controls.Add(this.pdfViewer);
             this.Controls.Add(this.grdPDF);
             this.Controls.Add(this.pnlButon);
-            this.Name = "Form1";
-            this.Text = "Form1";
+            this.Name = "frmPDFBirlestir";
+            this.Text = "PDF Birleştir";
             ((System.ComponentModel.ISupportInitialize)(this.grdPDF)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.grdvPDF)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pnlButon)).EndInit();

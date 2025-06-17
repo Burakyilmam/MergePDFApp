@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace MergePDFApp
 {
-    public partial class Form1 : Form
+    public partial class frmPDFBirlestir : Form
     {
         public class PDFItem
         {
@@ -28,7 +28,7 @@ namespace MergePDFApp
         public PDFItem selectedPDF;
         public int[] selectedPDFs;
 
-        public Form1()
+        public frmPDFBirlestir()
         {
             InitializeComponent();
             this.SizeChanged += Form1_SizeChanged;
@@ -39,12 +39,57 @@ namespace MergePDFApp
             grdvPDF.PopupMenuShowing += GrdvPDF_PopupMenuShowing;
             grdvPDF.RowStyle += grdvPDF_RowStyle;
             grdvPDF.RowClick += grdvPDF_RowClick;
+            grdPDF.DragEnter += grdPDF_DragEnter;
+            grdPDF.DragDrop += grdPDF_DragDrop;
 
             btnDownloadPDF.Click += btnDownloadMergedPDF_Click;
             btnMergePDF.Click += btnMergePDF_Click;
             btnUploadPDF.Click += btnUploadPDF_Click;
 
             GridControlDataSource();
+        }
+
+        private void grdPDF_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+
+                foreach (var file in files)
+                {
+                    if (!Path.GetExtension(file).Equals(".pdf", StringComparison.OrdinalIgnoreCase))
+                        continue;
+
+                    if (pdfList.Any(p => p.FileName.Equals(Path.GetFileName(file), StringComparison.OrdinalIgnoreCase)))
+                        continue;
+
+                    PdfDocument doc = PdfReader.Open(file, PdfDocumentOpenMode.Import);
+                    pdfList.Add(new PDFItem
+                    {
+                        FileName = Path.GetFileName(file),
+                        FilePath = file,
+                        PageSize = doc.PageCount,
+                        IsMerged = false
+                    });
+                }
+                grdPDF.RefreshDataSource();
+            }
+        }
+
+        private void grdPDF_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
+            {
+                string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+                if (files.All(f => Path.GetExtension(f).Equals(".pdf", StringComparison.OrdinalIgnoreCase)))
+                    e.Effect = DragDropEffects.Copy;
+                else
+                    e.Effect = DragDropEffects.None;
+            }
+            else
+            {
+                e.Effect = DragDropEffects.None;
+            }
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -187,7 +232,11 @@ namespace MergePDFApp
 
             if (e.KeyCode == Keys.Delete)
             {
-                DeletePDF();
+                DialogResult result = MessageBox.Show("Silmek istediğinize emin misiniz?", "Onay", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+                if (result == DialogResult.Yes)
+                {
+                    DeletePDF();
+                }
             }
         }
 
@@ -211,6 +260,8 @@ namespace MergePDFApp
             {
                 foreach (var file in ofd.FileNames)
                 {
+                    if (pdfList.Any(p => p.FileName.Equals(Path.GetFileName(file), StringComparison.OrdinalIgnoreCase))) continue;
+
                     PdfDocument doc = PdfReader.Open(file, PdfDocumentOpenMode.Import);
 
                     pdfList.Add(new PDFItem
@@ -223,7 +274,6 @@ namespace MergePDFApp
                 }
             }
         }
-
 
         private void btnUploadPDF_Click(object sender, EventArgs e)
         {
