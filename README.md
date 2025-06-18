@@ -1,12 +1,14 @@
 <h1>PDF Birleştirme ve Parçalama Uygulaması</h1>
 
-<p>DevExpress, .NET 4.7.2 ve WinForms kullanılarak geliştirilmiş bu masaüstü uygulaması ile PDF dosyaları kolayca eklenebilir, görüntülenebilir, birleştirilebilir, kullanıcı tarafından istenilen sayfa aralığında parçalanabilir, silinebilir ve istenilen klasöre indirilebilir.</p>
+<p>DevExpress, .NET 4.7.2 ve WinForms kullanılarak geliştirilmiş bu masaüstü uygulaması ile PDF dosyaları kolayca eklenebilir, görüntülenebilir, birleştirilebilir, kullanıcı tarafından istenilen sayfa aralığında parçalanabilir, Spire.PDF kütüphanesi kullanılarak PDF dosyaları Word, Excel ve HTML formatlarına dönüştürülebilir, silinebilir ve istenilen klasöre indirilebilir.</p>
 
 <h3>Kullanılan Teknolojiler</h3>
 <ul>
   <li><b>DevExpress</b></li>
   <li><b>.NET 4.7.2</b></li>
   <li><b>WinForms</b></li>
+  <li><b>Spire.PDF</b></li>
+  <li><b>PdfSharp</b></li>
 </ul>
 
 <h3>Özellikler</h3>
@@ -18,6 +20,7 @@
   <li><b>PDF Birleştirme:</b> Seçilen PDF dosyaları tek bir PDF dosyası olarak birleştirilebilir.</li>
   <li><b>PDF İndirme:</b> Birleştirilmiş PDF dosyası istenilen konuma kaydedilebilir.</li>
   <li><b>PDF Parçalama:</b> Seçilen PDF dosyasının kullanıcı tarafından belirlenen sayfa aralığında yeni bir PDF dosyasının oluşturulmasını sağlar.</li>
+  <li><b>PDF Dönüştürme:</b> Spire.PDF kütüphanesi kullanılarak PDF dosyaları Word, Excel ve HTML formatlarına dönüştürüldü.</li>
 </ul>
 
 <h3>Görseller</h3>
@@ -37,3 +40,5 @@
 <img src="https://github.com/user-attachments/assets/480dabf9-e335-46f8-a9eb-f7e912693d4a" alt="Tek PDF İndirme">
 <h4  align="center">PDF İndirme (Çoklu)</h4>
 <img src="https://github.com/user-attachments/assets/ff0809d8-81f3-48d8-ab53-df6ff2d232bc" alt="Çoklu PDF İndirme">
+<h4  align="center">PDF Dönüştürme İşlemi (Spire.PDF ile)</h4>
+<img src="https://github.com/user-attachments/assets/0143b4b4-9ae1-4c7c-bc73-f1bdb78c43ee" alt="PDF Dönüstür">
