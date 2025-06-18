@@ -1,4 +1,6 @@
-﻿using DevExpress.XtraEditors;
+﻿using DevExpress.Utils.Svg;
+using DevExpress.XtraBars;
+using DevExpress.XtraEditors;
 using DevExpress.XtraGrid.Columns;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
@@ -23,7 +25,8 @@ namespace MergePDFApp
             public string MergedFromDisplay => IsMerged && MergedFiles.Any() ? string.Join(", ", MergedFiles.Select(x => Path.GetFileName(x))) : string.Empty;
             public int PageSize { get; set; }
         }
-
+        public PopupMenu popupMenu;
+        public BarManager manager;
         public static BindingList<PDFItem> pdfList;
         public string outputPath;
         public PDFItem selectedPDF;
@@ -34,6 +37,15 @@ namespace MergePDFApp
             InitializeComponent();
             Events();
             GridControlDataSource();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            ribbonControl1.ShowApplicationButton = DevExpress.Utils.DefaultBoolean.False;
+            GridAppearance();
+            CreatePopupMenu();
+            ButtonEnabled();
+            ButtonCenter();
         }
 
         #region Eventler
@@ -51,11 +63,11 @@ namespace MergePDFApp
         {
             grdvPDF.FocusedRowChanged += grdvPDF_FocusedRowChanged;
             grdvPDF.SelectionChanged += grdvPDF_SelectionChanged;
-            grdvPDF.PopupMenuShowing += grdvPDF_PopupMenuShowing;
             grdvPDF.DoubleClick += grdvPDF_DoubleClick;
             grdvPDF.KeyDown += grdvPDF_KeyDown;
             grdvPDF.RowStyle += grdvPDF_RowStyle;
             grdvPDF.RowClick += grdvPDF_RowClick;
+            grdvPDF.MouseUp += grdvPDF_MouseUp;
             grdPDF.DragEnter += grdPDF_DragEnter;
             grdPDF.DragDrop += grdPDF_DragDrop;
         }
@@ -88,6 +100,32 @@ namespace MergePDFApp
             ColumnAppearance(grdvPDF.Columns[4], "Sayfa", true);
 
             grdvPDF.BestFitColumns();
+        }
+        #endregion
+
+        #region Popup Oluşturma
+        public void CreatePopupMenu()
+        {
+            popupMenu = new PopupMenu();
+            manager = new BarManager();
+            popupMenu.Manager = manager;
+            manager.Images = ımageCollection1;
+
+            BarButtonItem pdfToWord = new BarButtonItem(manager, "PDF to Word");
+            BarButtonItem pdfToExcel = new BarButtonItem(manager, "PDF to Excel");
+            BarButtonItem pdfToHtml = new BarButtonItem(manager, "PDF to HTML");
+
+            pdfToWord.ImageOptions.ImageIndex = 0;
+            pdfToExcel.ImageOptions.ImageIndex = 1;
+            pdfToHtml.ImageOptions.ImageIndex = 2;
+
+            popupMenu.AddItem(pdfToWord);
+            popupMenu.AddItem(pdfToExcel);
+            popupMenu.AddItem(pdfToHtml);
+
+            pdfToWord.ItemClick += PdfToWord_ItemClick;
+            pdfToExcel.ItemClick += PdfToExcel_ItemClick;
+            pdfToHtml.ItemClick += PdfToHtml_ItemClick;
         }
         #endregion
 
@@ -134,14 +172,6 @@ namespace MergePDFApp
         }
         #endregion
 
-        private void Form1_Load(object sender, EventArgs e)
-        {
-            ribbonControl1.ShowApplicationButton = DevExpress.Utils.DefaultBoolean.False;
-            GridAppearance();
-            ButtonEnabled();
-            ButtonCenter();
-        }
-
         #region Etkinlik Tetikleyicileri
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
@@ -155,6 +185,10 @@ namespace MergePDFApp
                 selectedPDF = grdvPDF.GetFocusedRow() as PDFItem;
                 selectedPDFs = grdvPDF.GetSelectedRows();
                 ButtonEnabled();
+            }
+            else
+            {
+                pdfViewer.CloseDocument();
             }
         }
 
@@ -259,6 +293,21 @@ namespace MergePDFApp
                 if (result == DialogResult.Yes)
                 {
                     DeletePDF();
+                }
+            }
+        }
+        #endregion
+
+        #region Fare İşlemleri
+        private void grdvPDF_MouseUp(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                var hitInfo = grdvPDF.CalcHitInfo(e.Location);
+                if (hitInfo.InRow)
+                {
+                    grdvPDF.FocusedRowHandle = hitInfo.RowHandle;
+                    popupMenu.ShowPopup(Control.MousePosition);
                 }
             }
         }
@@ -582,9 +631,54 @@ namespace MergePDFApp
         }
         #endregion
 
-        private void grdvPDF_PopupMenuShowing(object sender, DevExpress.XtraGrid.Views.Grid.PopupMenuShowingEventArgs e)
+        #region Dönüştürme İşlemleri
+        public void ConvertPDF(Spire.Pdf.FileFormat format, string extension, string dialogTitle)
         {
-            throw new NotImplementedException();
+            if (selectedPDF == null || string.IsNullOrEmpty(selectedPDF.FilePath))
+            {
+                MessageBox.Show("Lütfen PDF seçin.", "Uyarı", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            using (SaveFileDialog sfd = new SaveFileDialog())
+            {
+                sfd.Filter = $"{extension.ToUpper()} Dosyası (*.{extension})|*.{extension}";
+                sfd.Title = $"{dialogTitle} olarak kaydet";
+                sfd.FileName = Path.GetFileNameWithoutExtension(selectedPDF.FilePath) + $".{extension}";
+
+                if (sfd.ShowDialog() != DialogResult.OK) return;
+
+                try
+                {
+                    using (var pdf = new Spire.Pdf.PdfDocument())
+                    {
+                        pdf.LoadFromFile(selectedPDF.FilePath);
+                        pdf.SaveToFile(sfd.FileName, format);
+                    }
+
+                    MessageBox.Show($"PDF başarıyla {dialogTitle} formatına dönüştürüldü:\n{sfd.FileName}", "Başarılı", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Dönüştürme sırasında bir hata oluştu:\n" + ex.Message, "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
+
+        private void PdfToWord_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            ConvertPDF(Spire.Pdf.FileFormat.DOCX, "docx", "Word");
+        }
+
+        private void PdfToExcel_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            ConvertPDF(Spire.Pdf.FileFormat.XLSX, "xlsx", "Excel");
+        }
+
+        private void PdfToHtml_ItemClick(object sender, DevExpress.XtraBars.ItemClickEventArgs e)
+        {
+            ConvertPDF(Spire.Pdf.FileFormat.HTML, "html", "HTML");
+        }
+        #endregion
     }
 }

@@ -30,6 +30,7 @@ namespace MergePDFApp
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMerge));
             this.pnlButon = new DevExpress.XtraEditors.PanelControl();
             this.btnPartialPDF = new DevExpress.XtraEditors.SimpleButton();
@@ -78,6 +79,7 @@ namespace MergePDFApp
             this.pdfCommentRibbonPage1 = new DevExpress.XtraPdfViewer.Bars.PdfCommentRibbonPage();
             this.pdfTextCommentPageGroup1 = new DevExpress.XtraPdfViewer.Bars.PdfTextCommentPageGroup();
             this.pdfBarController1 = new DevExpress.XtraPdfViewer.Bars.PdfBarController(this.components);
+            this.ımageCollection1 = new DevExpress.Utils.ImageCollection(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pnlButon)).BeginInit();
             this.pnlButon.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerControl1)).BeginInit();
@@ -87,6 +89,7 @@ namespace MergePDFApp
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemPageNumberEdit1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pdfBarController1)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ımageCollection1)).BeginInit();
             this.SuspendLayout();
             // 
             // pnlButon
@@ -497,6 +500,13 @@ namespace MergePDFApp
             this.pdfBarController1.BarItems.Add(this.pdfTextUnderlineBarItem1);
             this.pdfBarController1.Control = this.pdfViewer;
             // 
+            // ımageCollection1
+            // 
+            this.ımageCollection1.ImageStream = ((DevExpress.Utils.ImageCollectionStreamer)(resources.GetObject("ımageCollection1.ImageStream")));
+            this.ımageCollection1.Images.SetKeyName(0, "exporttodoc_16x16.png");
+            this.ımageCollection1.Images.SetKeyName(1, "sendxlsx_16x16.png");
+            this.ımageCollection1.Images.SetKeyName(2, "exporttohtml_16x16.png");
+            // 
             // frmMerge
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -515,6 +525,7 @@ namespace MergePDFApp
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControl1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.repositoryItemPageNumberEdit1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pdfBarController1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.ımageCollection1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -567,6 +578,7 @@ namespace MergePDFApp
         private DevExpress.XtraPdfViewer.Bars.PdfCommentRibbonPage pdfCommentRibbonPage1;
         private DevExpress.XtraPdfViewer.Bars.PdfTextCommentPageGroup pdfTextCommentPageGroup1;
         private DevExpress.XtraPdfViewer.Bars.PdfBarController pdfBarController1;
+        private DevExpress.Utils.ImageCollection ımageCollection1;
     }
 }
 
